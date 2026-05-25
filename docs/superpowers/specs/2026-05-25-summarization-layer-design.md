@@ -1,7 +1,8 @@
 # Venture Radar — Summarization Layer Design
 
 **Date:** 2026-05-25
-**Status:** Approved (design); pending implementation plan
+**Status:** Approved (design). Phase 0 (account migration) complete. Building
+interactively under user direction (no separate implementation plan, by request).
 
 ## Goal
 
@@ -17,12 +18,21 @@ dashboard currently reads only static seed JSON and never touches DynamoDB.
 - **Key handling — bring your own key (BYOK):** the user selects provider + model
   and supplies their own API key *in the dashboard UI*. The key is used transiently
   server-side and is never stored, persisted, or logged.
-- **Trigger + persistence:** on-demand. A "Generate synthesis" button calls a
-  Next.js API route, which reads the latest week's tweets, calls the LLM, and
-  writes the result back to DynamoDB. The dashboard reads the latest stored result
-  on load, with seed JSON as fallback.
-- **Pipeline structure (approach C):** LLM classify → deterministic rank → LLM
-  narrative. Chosen so the "AI clusters live VC data" story holds *and* the ranking
+- **Trigger + persistence:** on-demand. The user supplies provider + model + key up
+  front, then a "Generate synthesis" action calls a Next.js API route, which reads the
+  latest week's tweets, runs the LLM pipeline, and writes the result back to DynamoDB.
+  The dashboard reads the latest stored result on load, with seed JSON as fallback.
+- **Two grounded inputs:** themes are synthesized from (1) the ingested partner
+  **tweets** and (2) a bounded **web-research pass** on "what a16z / YC / Sequoia are
+  investing in" — ~3–5 sources per firm, with citations. This avoids relying on the
+  model's latent knowledge ("where's this from?" has a real, citable answer).
+- **Web access = the provider's native web-search tool:** the BYOK LLM call enables
+  the provider's built-in web search (Anthropic / OpenAI), so searches are billed to
+  the user's key and return citations — no separate search-API key. If the chosen
+  provider/model does not support web search, the pipeline degrades to **tweets-only**
+  (still grounded, just without the firm web context).
+- **Pipeline structure (approach C):** LLM classify → deterministic rank → web-grounded
+  LLM synthesis. Chosen so the "AI clusters live VC data" story holds *and* the ranking
   stays transparent/defensible.
 - **Single model for the pipeline:** the one model the user selects in the UI is used
   for both the classify and narrative LLM stages. (The handoff's cheap-classifier /
@@ -44,27 +54,28 @@ Sequoia 3, 0 errors). Two findings shaped this design:
   investing signal. The pipeline must **filter for investment relevance** before
   ranking, rather than treating every partner tweet as a venture signal.
 
-## Phase 0 — Account migration (prerequisite, infra)
+## Phase 0 — Account migration (COMPLETE, 2026-05-25)
 
-The deploy script `scripts/deploy-aws-ingestion.sh` derives the account from
-ambient credentials (`aws sts get-caller-identity`) and takes no `--profile` flag.
+Redeployed the ingestion stack into `536068784559` via
+`AWS_PROFILE=sthumm_dev ./scripts/deploy-aws-ingestion.sh`. Outcome:
 
-1. Redeploy into `536068784559`:
-   `AWS_PROFILE=sthumm_dev X_BEARER_TOKEN="<rotated token>" ./scripts/deploy-aws-ingestion.sh`
-   This creates the DynamoDB table, IAM role, Lambda, EventBridge rule, and the
-   Secrets Manager secret in the new account. The new account has no secret yet, so
-   `X_BEARER_TOKEN` must be passed — the natural moment to **rotate** the token
-   (flagged as required for handoff).
-2. Invoke once to populate the new table; verify item count and the EventBridge
-   schedule.
-3. The old `340342921626` resources are left abandoned for now (cleanup needs the
-   default profile — deferred/optional).
+- DynamoDB table, IAM role, Lambda, EventBridge rule (`cron(0 14 ? * MON *)`,
+  ENABLED), and Secrets Manager secret all live and verified in the new account.
+  EventBridge → Lambda invoke permission confirmed present.
+- Populated with a 7-day backfill: **914 tweets** stored for `WEEK#2026-05-25`, 0 errors.
+- **Token was reused, not rotated** (user's call) — the X bearer token still needs
+  rotation before final handoff.
+- Old `340342921626` resources left abandoned (cleanup deferred).
+- 14-day backfill is not possible via the recent-search endpoint (7-day cap); would
+  require the full-archive endpoint (elevated tier) or schedule accumulation over time.
 
 ## Section 1 — Summarization pipeline (approach C)
 
 New module under `app/lib/summarize/`. Provider-agnostic `LlmClient` interface with
-Anthropic and OpenAI implementations, so the pipeline accepts an injected client
-and is testable with a mock and degrades to a deterministic path.
+Anthropic and OpenAI implementations. The interface exposes whether the
+provider/model supports web search and a web-search-enabled generation call, so the
+pipeline accepts an injected client, is testable with a mock, and degrades to a
+deterministic path.
 
 1. **Read** the latest week's `X_POST` items from DynamoDB. Compute the current ISO
    week key (matching the Lambda's `isoWeekKey` logic) and query `PK=WEEK#<key>`,
@@ -73,13 +84,20 @@ and is testable with a mock and degrades to a deterministic path.
 2. **Classify (selected model, batched ~30 tweets/call):** each tweet →
    `{ themeLabel, investmentRelevant: boolean, why }`. Tweets with
    `investmentRelevant = false` are dropped (the noise filter).
-3. **Rank (deterministic — reuse/extend `app/lib/scoring.ts`):** group surviving
+3. **Firm web-research (selected model + provider web-search tool, one call per firm):**
+   for each of a16z, YC, Sequoia, run a bounded web search (~3–5 sources) for what the
+   firm is currently investing in. Capture a short summary plus the citations (title +
+   URL). Skipped entirely if the provider/model lacks web search → pipeline continues
+   tweets-only. Capped per firm so we "don't go overboard."
+4. **Rank (deterministic — reuse/extend `app/lib/scoring.ts`):** group surviving
    tweets by theme and compute per theme: `signalStrength`, `firmsInvolved`,
    `partnerSignalCount`, and representative tweet IDs. Ranking logic is deterministic
-   and explainable.
-4. **Narrative (same selected model):** generate `whatTheyAreSaying` and
-   `whyItMatters` per top theme plus the weekly partner memo, grounded in the
-   representative real tweets.
+   and explainable. (Web context is grounding for synthesis, not a ranking input, so
+   ranking stays defensible.)
+5. **Synthesis (same selected model):** generate `whatTheyAreSaying` and `whyItMatters`
+   per top theme plus the weekly partner memo, grounded in both the representative real
+   tweets and the per-firm web research. Each theme carries the citations that informed
+   it.
 
 ### Output shape
 
@@ -94,16 +112,21 @@ and is testable with a mock and degrades to a deterministic path.
       "partnerSignalCount": 12,
       "whatTheyAreSaying": "...",
       "whyItMatters": "...",
-      "representativeTweetIds": ["...", "..."]
+      "representativeTweetIds": ["...", "..."],
+      "citations": [{ "title": "...", "url": "https://..." }]
     }
   ],
   "memo": { "title": "Weekly VC Theme Brief", "body": "..." },
-  "meta": { "provider": "anthropic", "model": "claude-sonnet-4-6", "generatedAt": "...", "mode": "llm" }
+  "meta": {
+    "provider": "anthropic", "model": "claude-sonnet-4-6", "generatedAt": "...",
+    "mode": "llm", "webGrounded": true
+  }
 }
 ```
 
-`meta.mode` is `"llm"` or `"deterministic"` so the UI/response can indicate which
-path produced the result.
+`meta.mode` is `"llm"` or `"deterministic"`; `meta.webGrounded` indicates whether the
+firm web-research step ran (false when the provider/model lacks web search). Together
+they let the UI show how the result was produced.
 
 ## Section 2 — Persistence
 
@@ -122,9 +145,13 @@ Write the result back to DynamoDB as a `WEEKLY_MEMO` item:
   error surfaced to the client or logs.
 - Validates input (provider in allowed set, model non-empty, key present for the LLM
   path). Guards request body size.
+- Web search is performed by the provider as part of the BYOK call and billed to the
+  user's key; we cap it to ~3–5 sources per firm.
 - Error handling:
   - No key → run deterministic fallback; response `meta.mode = "deterministic"`.
   - LLM call fails → deterministic fallback.
+  - Provider/model lacks web search → run tweets-only; `meta.webGrounded = false`.
+  - Web search fails or returns nothing → continue tweets-only; `meta.webGrounded = false`.
   - DynamoDB unreachable → generate over seed tweets and skip persistence.
 
 ## Section 4 — Frontend
@@ -133,11 +160,13 @@ Write the result back to DynamoDB as a `WEEKLY_MEMO` item:
   from DynamoDB and render the generated themes/memo. If absent or DynamoDB is
   unavailable, fall back to the existing `data/themes.json` / `data/signals.json`.
   Existing layout and sections are preserved.
-- **Generate path (new client component):** a "Generate synthesis" panel with a
-  provider select, a model field (per-provider defaults + custom entry), and an
-  API-key password input (held in component state only, not persisted to
-  localStorage). The button POSTs to `/api/summarize`, shows a loading state, and
-  re-renders with the returned themes/memo.
+- **Generate path (new client component):** the user provides provider + model + key
+  up front (a setup panel/modal) — a provider select, a model field (per-provider
+  defaults + custom entry), and an API-key password input (held in component state
+  only, not persisted to localStorage). A "Generate synthesis" action then POSTs to
+  `/api/summarize`, shows a loading state, and re-renders with the returned
+  themes/memo. Theme citations are shown as evidence; a small badge reflects
+  `meta.mode` / `meta.webGrounded`.
 - The existing deterministic `app/lib/memo.ts` and `app/lib/scoring.ts` remain as the
   fallback generator.
 
@@ -150,17 +179,19 @@ Write the result back to DynamoDB as a `WEEKLY_MEMO` item:
 
 - Unit-test the deterministic ranking/aggregation (pure function) with fixture tweets.
 - Test the pipeline with a mock `LlmClient`, including the deterministic fallback path
-  (runnable without any API key).
+  (runnable without any API key) and the no-web-search path (`webGrounded = false`).
 - Test the API route: input validation and each fallback branch (no key, LLM failure,
-  DynamoDB unavailable).
+  no web-search support, DynamoDB unavailable).
 - `npm run typecheck` and `npm run build` pass.
 - Manual end-to-end browser run with a real key, after Phase 0 populates the new
   account.
 
 ## New types (sketch)
 
-`GeneratedTheme`, `WeeklyMemo`, `SummaryResult`, and an `LlmClient` interface
-(provider-agnostic) with Anthropic and OpenAI implementations.
+`GeneratedTheme` (incl. `citations`), `Citation` (`{ title, url }`), `FirmResearch`
+(per-firm summary + citations), `WeeklyMemo`, `SummaryResult`, and an `LlmClient`
+interface (provider-agnostic) exposing web-search support + a web-search-enabled
+call, with Anthropic and OpenAI implementations.
 
 ## Out of scope (YAGNI)
 
