@@ -21,6 +21,7 @@ REGION="${AWS_REGION:-$(aws configure get region)}"
 ACCOUNT_ID="$(aws sts get-caller-identity --query Account --output text)"
 ROLE_ARN="arn:aws:iam::${ACCOUNT_ID}:role/${ROLE_NAME}"
 ZIP_PATH="/tmp/${FUNCTION_NAME}.zip"
+HIGHLIGHT_TARGETS_PATH="/tmp/${FUNCTION_NAME}-company-highlight-targets.json"
 
 if [[ -z "${REGION}" ]]; then
   echo "AWS region is not configured. Set AWS_REGION or run aws configure." >&2
@@ -157,9 +158,21 @@ aws lambda add-permission \
   --source-arn "${HIGHLIGHT_RULE_ARN}" \
   --region "${REGION}" >/dev/null 2>&1 || true
 
+FUNCTION_NAME="${FUNCTION_NAME}" FUNCTION_ARN="${FUNCTION_ARN}" HIGHLIGHT_TARGETS_PATH="${HIGHLIGHT_TARGETS_PATH}" node -e '
+  const fs = require("fs");
+  fs.writeFileSync(
+    process.env.HIGHLIGHT_TARGETS_PATH || "/tmp/highlight-targets.json",
+    JSON.stringify([{
+      Id: `${process.env.FUNCTION_NAME}-company-highlight`,
+      Arn: process.env.FUNCTION_ARN,
+      Input: JSON.stringify({ task: "company-highlight" })
+    }])
+  );
+'
+
 aws events put-targets \
   --rule "${HIGHLIGHT_RULE_NAME}" \
-  --targets "Id=${FUNCTION_NAME}-company-highlight,Arn=${FUNCTION_ARN},Input={\"task\":\"company-highlight\"}" \
+  --targets "file://${HIGHLIGHT_TARGETS_PATH}" \
   --region "${REGION}" >/dev/null
 
 echo "Deployed weekly summarization:"
