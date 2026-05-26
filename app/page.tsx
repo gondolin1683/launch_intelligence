@@ -1,9 +1,10 @@
-import { BadgeCheck, BarChart3, CalendarDays, FileText, RadioTower, RefreshCw, Search } from "lucide-react";
+import { BadgeCheck, BarChart3, CalendarDays, Download, FileText, RadioTower, RefreshCw, Search } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import partnersData from "../data/partners.json";
 import seedSignalsData from "../data/signals.json";
 import themesData from "../data/themes.json";
 import { BackgroundEffects } from "./BackgroundEffects";
+import { selectDealMemoTarget } from "./lib/dealMemo";
 import { generatePartnerMemo } from "./lib/memo";
 import { getLatestWeeklyMemo } from "./lib/weeklyMemo";
 import type { Firm, PartnerAccount, Signal, VcTheme } from "./lib/types";
@@ -166,6 +167,12 @@ export default async function Home() {
   const memoBody = liveMode ? weekly!.memo.body : null;
   const seedMemoParagraphs = liveMode ? [] : generatePartnerMemo(seedThemes, seedSignals);
   const generatedAt = liveMode ? weekly!.meta.generatedAt : null;
+  const dealMemoTarget = selectDealMemoTarget({
+    generatedAt,
+    memoBody,
+    themes,
+    weekKey: liveMode ? weekly!.weekKey : "seed"
+  });
 
   return (
     <main className="relative min-h-screen text-zinc-100">
@@ -207,12 +214,23 @@ export default async function Home() {
                 </div>
                 <h3 className="mt-2 text-lg font-medium text-white">{memoTitle}</h3>
               </div>
-              {generatedAt ? (
-                <div className="flex items-center gap-2 rounded-full border border-white/10 px-3 py-1.5 text-xs font-medium text-zinc-400">
-                  <CalendarDays className="h-3.5 w-3.5 text-zinc-500" />
-                  {formatTimestamp(generatedAt)}
-                </div>
-              ) : null}
+              <div className="flex flex-wrap items-center gap-2">
+                <a
+                  className="inline-flex items-center gap-2 rounded-full border border-sky-400/25 bg-sky-400/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-sky-200 transition-colors hover:border-sky-300/50 hover:bg-sky-300/15"
+                  download
+                  href="/api/deal-memo"
+                  title={`Generate deal memo for ${dealMemoTarget.candidate.company}`}
+                >
+                  <Download className="h-3.5 w-3.5" />
+                  Generate deal memo
+                </a>
+                {generatedAt ? (
+                  <div className="flex items-center gap-2 rounded-full border border-white/10 px-3 py-1.5 text-xs font-medium text-zinc-400">
+                    <CalendarDays className="h-3.5 w-3.5 text-zinc-500" />
+                    {formatTimestamp(generatedAt)}
+                  </div>
+                ) : null}
+              </div>
             </div>
             {memoBody ? (
               <div className="memo-body text-sm leading-7 text-zinc-300">
