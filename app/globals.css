@@ -1,0 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --font-sans: "Inter", "SF Pro Display", "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    linear-gradient(135deg, rgba(13, 88, 85, 0.08), transparent 30%),
+    linear-gradient(225deg, rgba(211, 120, 44, 0.1), transparent 32%),
+    #f6f3ee;
+  color: #121417;
+}
+
+::selection {
+  background: #133f3c;
+  color: #fff;
+}
+
+.memo-body p {
+  margin-bottom: 0.9rem;
+}
+
+.memo-body h2 {
+  margin: 1.5rem 0 0.6rem;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #0a0a0a;
+}
+
+.memo-body h3 {
+  margin: 1.2rem 0 0.4rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #0a0a0a;
+}
+
+.memo-body strong {
+  font-weight: 700;
+  color: #0a0a0a;
+}
+
+.memo-body ul {
+  margin: 0 0 0.9rem;
+  padding-left: 1.25rem;
+  list-style: disc;
+}
+
+.memo-body li {
+  margin-bottom: 0.35rem;
+}
+
+.memo-body a {
+  color: #115e59;
+  text-decoration: underline;
+}
+
+.memo-body h2:first-child,
+.memo-body h3:first-child {
+  margin-top: 0;
+}
