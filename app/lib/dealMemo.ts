@@ -171,8 +171,11 @@ export function selectDealMemoTarget({ memoBody = "", themes, weekKey }: DealMem
 function formatDate(value?: string | null) {
   if (!value) return "Not available";
   return new Intl.DateTimeFormat("en", {
-    dateStyle: "medium",
-    timeStyle: "short",
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
     timeZoneName: "short"
   }).format(new Date(value));
 }
