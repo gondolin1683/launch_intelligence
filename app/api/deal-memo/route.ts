@@ -1,9 +1,10 @@
 import themesData from "../../../data/themes.json";
-import { buildDealMemoPdf, selectDealMemoTarget } from "../../lib/dealMemo";
+import { buildDealMemoPdf, generateDealMemoWithSonnet, selectDealMemoTarget } from "../../lib/dealMemo";
 import type { VcTheme } from "../../lib/types";
 import { getLatestWeeklyMemo } from "../../lib/weeklyMemo";
 
 export const dynamic = "force-dynamic";
+export const maxDuration = 60;
 
 function isoWeekKey(date = new Date()) {
   const value = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), date.getUTCDate()));
@@ -32,7 +33,15 @@ export async function GET() {
     weekKey: weekly?.weekKey ?? isoWeekKey()
   };
   const target = selectDealMemoTarget(input);
-  const pdf = buildDealMemoPdf(input);
+  let generatedText: string | null = null;
+
+  try {
+    generatedText = await generateDealMemoWithSonnet(input);
+  } catch (error) {
+    console.error("[deal-memo] Sonnet generation failed, using deterministic PDF fallback:", error);
+  }
+
+  const pdf = buildDealMemoPdf(input, generatedText);
   const filename = `${target.candidate.slug}-deal-memo-${input.weekKey}.pdf`;
 
   return new Response(pdf, {

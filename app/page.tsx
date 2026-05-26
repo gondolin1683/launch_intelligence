@@ -214,23 +214,12 @@ export default async function Home() {
                 </div>
                 <h3 className="mt-2 text-lg font-medium text-white">{memoTitle}</h3>
               </div>
-              <div className="flex flex-wrap items-center gap-2">
-                <a
-                  className="inline-flex items-center gap-2 rounded-full border border-sky-400/25 bg-sky-400/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-sky-200 transition-colors hover:border-sky-300/50 hover:bg-sky-300/15"
-                  download
-                  href="/api/deal-memo"
-                  title={`Generate deal memo for ${dealMemoTarget.candidate.company}`}
-                >
-                  <Download className="h-3.5 w-3.5" />
-                  Generate deal memo
-                </a>
-                {generatedAt ? (
-                  <div className="flex items-center gap-2 rounded-full border border-white/10 px-3 py-1.5 text-xs font-medium text-zinc-400">
-                    <CalendarDays className="h-3.5 w-3.5 text-zinc-500" />
-                    {formatTimestamp(generatedAt)}
-                  </div>
-                ) : null}
-              </div>
+              {generatedAt ? (
+                <div className="flex items-center gap-2 rounded-full border border-white/10 px-3 py-1.5 text-xs font-medium text-zinc-400">
+                  <CalendarDays className="h-3.5 w-3.5 text-zinc-500" />
+                  {formatTimestamp(generatedAt)}
+                </div>
+              ) : null}
             </div>
             {memoBody ? (
               <div className="memo-body text-sm leading-7 text-zinc-300">
@@ -243,6 +232,55 @@ export default async function Home() {
                 ))}
               </div>
             )}
+          </article>
+        </section>
+
+        <section className="mb-20">
+          <SectionHeader
+            eyebrow="Company highlight"
+            icon={FileText}
+            note="One seed or Series A company selected for fit against this week's partner memo themes."
+            title="Weekly Company Highlight"
+          />
+          <article className="rounded-xl border border-white/10 bg-white/[0.02] p-8">
+            <div className="mb-6 flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5">
+              <div>
+                <div className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.2em] text-sky-400">
+                  <BadgeCheck className="h-3.5 w-3.5" />
+                  {dealMemoTarget.candidate.stage} match
+                </div>
+                <h3 className="mt-2 text-2xl font-medium text-white">{dealMemoTarget.candidate.company}</h3>
+                <p className="mt-2 max-w-3xl text-sm leading-6 text-zinc-400">{dealMemoTarget.candidate.category}</p>
+              </div>
+              <a
+                className="inline-flex items-center gap-2 rounded-full border border-sky-400/25 bg-sky-400/10 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-sky-200 transition-colors hover:border-sky-300/50 hover:bg-sky-300/15"
+                download
+                href="/api/deal-memo"
+                title={`Generate deal memo for ${dealMemoTarget.candidate.company}`}
+              >
+                <Download className="h-3.5 w-3.5" />
+                Generate deal memo
+              </a>
+            </div>
+            <div className="grid gap-6 lg:grid-cols-[1.4fr_0.8fr]">
+              <div>
+                <div className="mb-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-500">Why it matches this week</div>
+                <p className="text-sm leading-7 text-zinc-300">
+                  {dealMemoTarget.candidate.thesis} This overlaps with the current memo themes around{" "}
+                  {dealMemoTarget.matchedThemes.map((theme) => theme.name).join(", ")}.
+                </p>
+              </div>
+              <div className="rounded-md border border-white/5 bg-white/[0.02] p-4">
+                <div className="mb-3 text-[11px] font-semibold uppercase tracking-[0.16em] text-zinc-500">Matched themes</div>
+                <div className="flex flex-wrap gap-2">
+                  {dealMemoTarget.matchedThemes.map((theme) => (
+                    <span className="rounded-full border border-white/10 bg-white/[0.03] px-3 py-1 text-xs text-zinc-300" key={theme.name}>
+                      {theme.name}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
           </article>
         </section>
 
