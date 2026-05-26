@@ -3,7 +3,9 @@ import assert from "node:assert/strict";
 import {
   buildClassifyUserText,
   buildSynthesisUserText,
+  buildConsolidateUserText,
   parseClassifyResponse,
+  parseConsolidationResponse,
   parseSynthesisResponse
 } from "../lib/llm/parse.mjs";
 
@@ -20,8 +22,9 @@ test("buildClassifyUserText includes every tweet id and text", () => {
   assert.match(out, /Just bought a sandwich/);
 });
 
-test("buildSynthesisUserText includes the theme names and asks for JSON", () => {
+test("buildSynthesisUserText includes the theme names, the week date, and asks for JSON", () => {
   const out = buildSynthesisUserText({
+    weekKey: "2026-05-25",
     rankedThemes: [{ name: "AI Agents", signalStrength: 90, firmsInvolved: ["a16z"] }],
     firmResearch: [{ firm: "a16z", summary: "investing in agents" }],
     tweetsByTheme: { "AI Agents": [{ text: "agents everywhere" }] }
@@ -29,6 +32,38 @@ test("buildSynthesisUserText includes the theme names and asks for JSON", () => 
   assert.match(out, /AI Agents/);
   assert.match(out, /JSON/);
   assert.match(out, /agents everywhere/);
+  assert.match(out, /2026-05-25/);
+});
+
+test("buildConsolidateUserText lists the raw labels and asks for a JSON mappings object", () => {
+  const out = buildConsolidateUserText([
+    { label: "AI video generation", count: 12 },
+    { label: "AI Short Drama", count: 8 }
+  ]);
+  assert.match(out, /AI video generation/);
+  assert.match(out, /AI Short Drama/);
+  assert.match(out, /mappings/);
+  assert.match(out, /JSON/);
+});
+
+test("parseConsolidationResponse returns a mapping limited to known labels", () => {
+  const valid = ["AI video generation", "AI Short Drama"];
+  const text = JSON.stringify({
+    mappings: {
+      "AI video generation": "Generative Media",
+      "AI Short Drama": "Generative Media",
+      "Hallucinated Label": "Nope"
+    }
+  });
+  const mapping = parseConsolidationResponse(text, valid);
+  assert.deepEqual(mapping, {
+    "AI video generation": "Generative Media",
+    "AI Short Drama": "Generative Media"
+  });
+});
+
+test("parseConsolidationResponse returns {} on invalid JSON", () => {
+  assert.deepEqual(parseConsolidationResponse("garbage", ["A"]), {});
 });
 
 test("parseClassifyResponse parses a clean JSON array", () => {

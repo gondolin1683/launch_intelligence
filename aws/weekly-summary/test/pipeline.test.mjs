@@ -72,6 +72,28 @@ test("runs web research and marks webGrounded true when supported", async () => 
   assert.deepEqual([...researchedFirms].sort(), ["YC", "a16z"]);
 });
 
+test("a web-research failure degrades to tweets-only without losing LLM synthesis", async () => {
+  let synthesized = false;
+  const client = fakeClient({
+    researchFirms: async () => {
+      throw new Error("web search not enabled for this key");
+    },
+    synthesize: async ({ rankedThemes }) => {
+      synthesized = true;
+      return {
+        themes: rankedThemes.map((t) => ({ ...t, whatTheyAreSaying: "x", whyItMatters: "y", citations: [] })),
+        memo: { title: "M", body: "b" }
+      };
+    }
+  });
+
+  const result = await runPipeline({ weekKey: "2026-05-25", tweets: baseTweets, client });
+
+  assert.equal(result.meta.mode, "llm");
+  assert.equal(result.meta.webGrounded, false);
+  assert.equal(synthesized, true);
+});
+
 test("falls back to deterministic generation when an LLM call throws", async () => {
   const client = fakeClient({
     synthesize: async () => {
@@ -94,4 +116,45 @@ test("carries provider/model/weekKey and marks mode llm on success", async () =>
   assert.equal(result.meta.model, "test-model");
   assert.equal(result.meta.mode, "llm");
   assert.ok(result.meta.generatedAt);
+});
+
+test("caps the themes passed to synthesis (and returned) at maxThemes", async () => {
+  const many = [];
+  for (let i = 0; i < 20; i++) many.push(tweet(String(i), `Theme${i}`, "a16z"));
+
+  let synthThemeCount = null;
+  const client = fakeClient({
+    synthesize: async ({ rankedThemes }) => {
+      synthThemeCount = rankedThemes.length;
+      return {
+        themes: rankedThemes.map((t) => ({ ...t, whatTheyAreSaying: "", whyItMatters: "", citations: [] })),
+        memo: { title: "M", body: "b" }
+      };
+    }
+  });
+
+  const result = await runPipeline({ weekKey: "2026-05-25", tweets: many, client, maxThemes: 5 });
+
+  assert.equal(synthThemeCount, 5);
+  assert.equal(result.themes.length, 5);
+});
+
+test("applies theme consolidation when the client supports it", async () => {
+  const client = fakeClient({
+    consolidateThemes: async () => ({ "AI Agents": "Agents" })
+  });
+  const result = await runPipeline({ weekKey: "2026-05-25", tweets: baseTweets, client });
+  assert.ok(result.themes.some((t) => t.name === "Agents"));
+  assert.ok(!result.themes.some((t) => t.name === "AI Agents"));
+});
+
+test("consolidation failure is non-fatal — keeps raw labels and stays in llm mode", async () => {
+  const client = fakeClient({
+    consolidateThemes: async () => {
+      throw new Error("consolidation failed");
+    }
+  });
+  const result = await runPipeline({ weekKey: "2026-05-25", tweets: baseTweets, client });
+  assert.equal(result.meta.mode, "llm");
+  assert.ok(result.themes.some((t) => t.name === "AI Agents"));
 });

@@ -12,7 +12,7 @@ export function buildClassifyUserText(tweets) {
   ].join("\n");
 }
 
-export function buildSynthesisUserText({ rankedThemes, firmResearch, tweetsByTheme }) {
+export function buildSynthesisUserText({ weekKey, rankedThemes, firmResearch, tweetsByTheme }) {
   const themeContext = rankedThemes.map((t) => {
     const samples = (tweetsByTheme[t.name] ?? []).slice(0, 6).map((tw) => `- ${tw.text}`).join("\n");
     return `Theme: ${t.name} (signalStrength ${t.signalStrength}, firms ${t.firmsInvolved.join(", ")})\n${samples}`;
@@ -21,6 +21,7 @@ export function buildSynthesisUserText({ rankedThemes, firmResearch, tweetsByThe
 
   return [
     "You are a VC research analyst writing a weekly partner memo for LAUNCH.",
+    `This memo covers the week of ${weekKey}. Use that exact date in the title — never a placeholder like "[Current Week]".`,
     "Using the ranked themes (derived from real partner tweets) and the firm web research below, write a sharp synthesis.",
     'Respond ONLY with JSON: {"themes":[{"name","whatTheyAreSaying","whyItMatters"}],"memo":{"title","body"}}.',
     "Use the exact theme names given. Ground claims in the tweets and firm research.",
@@ -31,6 +32,38 @@ export function buildSynthesisUserText({ rankedThemes, firmResearch, tweetsByThe
     "FIRM WEB RESEARCH:",
     firmContext || "(none available)"
   ].join("\n");
+}
+
+export function buildConsolidateUserText(labelCounts) {
+  const lines = labelCounts.map((l) => `- ${l.label} (${l.count})`);
+  return [
+    "Below are raw venture theme labels produced by classifying tweets independently, with tweet counts.",
+    "Cluster near-duplicate and closely related labels into 8-12 canonical venture theme names.",
+    'Respond ONLY with JSON: {"mappings":{"<raw label>":"<canonical theme>", ...}} covering every raw label.',
+    "Prefer concise, investor-legible canonical names. Keep genuinely distinct themes separate.",
+    "",
+    ...lines
+  ].join("\n");
+}
+
+export function parseConsolidationResponse(rawText, validLabels) {
+  const valid = new Set(validLabels);
+  let parsed;
+  try {
+    parsed = JSON.parse(stripFences(rawText));
+  } catch {
+    return {};
+  }
+  const mappings = parsed?.mappings;
+  if (!mappings || typeof mappings !== "object") return {};
+
+  const out = {};
+  for (const [raw, canonical] of Object.entries(mappings)) {
+    if (valid.has(raw) && typeof canonical === "string" && canonical.trim()) {
+      out[raw] = canonical.trim();
+    }
+  }
+  return out;
 }
 
 function stripFences(text) {
