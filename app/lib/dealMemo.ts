@@ -1,4 +1,4 @@
-import type { Firm } from "./types";
+import type { CompanyHighlightResult, Firm } from "./types";
 
 type ThemeLike = {
   name: string;
@@ -43,6 +43,7 @@ export type DealMemoTarget = {
 
 export type DealMemoInput = {
   generatedAt?: string | null;
+  companyHighlight?: CompanyHighlightResult | null;
   memoBody?: string | null;
   themes: ThemeLike[];
   weekKey: string;
@@ -157,7 +158,47 @@ function scoreTheme(candidate: DealMemoCandidate, theme: ThemeLike, memoBody: st
   return (matches.length * 16 + tokenMatches.length * 5) * Math.max(theme.signalStrength, 1);
 }
 
-export function selectDealMemoTarget({ memoBody = "", themes, weekKey }: DealMemoInput): DealMemoTarget {
+function candidateFromHighlight(highlight: CompanyHighlightResult): DealMemoCandidate {
+  return {
+    company: highlight.company,
+    slug: highlight.slug,
+    website: highlight.website,
+    stage: highlight.stage,
+    category: highlight.category,
+    launchRelationship: "Weekly LLM-selected company highlight",
+    tags: [...highlight.matchedThemes, highlight.category, highlight.description],
+    description: highlight.description,
+    traction: highlight.knownDetails,
+    thesis: highlight.whyMatchesMemo,
+    businessModel: "Business model to be researched and verified in the generated memo.",
+    keyRisks: ["Stage, traction, valuation, and customer claims should be verified against primary sources before any investment decision."],
+    diligenceQuestions: [
+      "What traction and revenue metrics are confirmed by primary or investor sources?",
+      "How strong is founder-market fit versus better-funded competitors?",
+      "What specific buyer pain creates budget urgency this year?",
+      "What valuation and ownership profile would make this attractive for LAUNCH?",
+      "Which claims remain unverified after public-source research?"
+    ],
+    competitors: highlight.competitors.map((competitor) => ({
+      name: competitor.name,
+      positioning: competitor.positioning,
+      competitiveNote: competitor.positioning,
+      url: competitor.url
+    })),
+    sources: highlight.sources.map((source) => ({ label: source.title, url: source.url }))
+  };
+}
+
+export function selectDealMemoTarget({ companyHighlight, memoBody = "", themes, weekKey }: DealMemoInput): DealMemoTarget {
+  if (companyHighlight) {
+    const matched = themes.filter((theme) => companyHighlight.matchedThemes.some((name) => name.toLowerCase() === theme.name.toLowerCase()));
+    return {
+      candidate: candidateFromHighlight(companyHighlight),
+      matchedThemes: matched.length ? matched : themes.slice(0, 3),
+      score: Number.MAX_SAFE_INTEGER
+    };
+  }
+
   const ranked = dealMemoCandidates
     .map((candidate) => {
       const scoredThemes = themes

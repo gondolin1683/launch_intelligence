@@ -1,6 +1,6 @@
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoDBDocumentClient, GetCommand } from "@aws-sdk/lib-dynamodb";
-import type { WeeklyMemoResult } from "./types";
+import type { CompanyHighlightResult, WeeklyMemoResult } from "./types";
 
 const TABLE_NAME = process.env.SIGNALS_TABLE_NAME ?? "venture-radar-signals";
 const REGION = process.env.AWS_REGION ?? "us-east-1";
@@ -32,6 +32,23 @@ export async function getLatestWeeklyMemo(weekKey = isoWeekKey()): Promise<Weekl
       memo: item.memo,
       meta: item.meta
     } as WeeklyMemoResult;
+  } catch {
+    return null;
+  }
+}
+
+export async function getLatestCompanyHighlight(weekKey = isoWeekKey()): Promise<CompanyHighlightResult | null> {
+  try {
+    const ddb = DynamoDBDocumentClient.from(new DynamoDBClient({ region: REGION }));
+    const res = await ddb.send(
+      new GetCommand({
+        TableName: TABLE_NAME,
+        Key: { PK: `WEEK#${weekKey}`, SK: "COMPANY_HIGHLIGHT#LATEST" }
+      })
+    );
+    const highlight = res.Item?.highlight;
+    if (!highlight?.company || !highlight?.whyMatchesMemo) return null;
+    return highlight as CompanyHighlightResult;
   } catch {
     return null;
   }

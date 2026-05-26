@@ -7,6 +7,7 @@ import { DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import { createAnthropicClient } from "./lib/llm/anthropic.mjs";
 import { parseCredentials } from "./lib/credentials.mjs";
 import { runSummary } from "./lib/summarize-run.mjs";
+import { runCompanyHighlight } from "./lib/company-highlight.mjs";
 import { isoWeekKey } from "./lib/normalize.mjs";
 
 const TABLE_NAME = process.env.SIGNALS_TABLE_NAME;
@@ -26,10 +27,25 @@ export async function handler(event = {}) {
   if (provider !== "anthropic") throw new Error(`Unsupported LLM provider: ${provider}`);
 
   const llmClient = createAnthropicClient({ apiKey, model });
+  if (event.task === "company-highlight") {
+    const { highlight, stored } = await runCompanyHighlight({ ddb, table: TABLE_NAME, weekKey, llmClient });
+
+    return {
+      ok: true,
+      task: "company-highlight",
+      weekKey,
+      company: highlight.company,
+      stage: highlight.stage,
+      model,
+      stored
+    };
+  }
+
   const { result, tweetCount, stored } = await runSummary({ ddb, table: TABLE_NAME, weekKey, llmClient });
 
   return {
     ok: true,
+    task: "summary",
     weekKey,
     tweetCount,
     themes: result.themes.length,

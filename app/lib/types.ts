@@ -104,6 +104,35 @@ export type WeeklyMemoResult = {
   };
 };
 
+export type CompanyHighlightResult = {
+  slug: string;
+  company: string;
+  website: string;
+  stage: string;
+  category: string;
+  description: string;
+  whyMatchesMemo: string;
+  matchedThemes: string[];
+  knownDetails: string;
+  competitors: Array<{
+    name: string;
+    url: string;
+    positioning: string;
+  }>;
+  sources: Array<{
+    title: string;
+    url: string;
+  }>;
+  weekKey: string;
+  meta: {
+    generatedAt: string;
+    provider: string;
+    model: string;
+    mode: "llm" | "deterministic";
+    webGrounded: boolean;
+  };
+};
+
 export type ThemeSummary = {
   name: string;
   score: number;

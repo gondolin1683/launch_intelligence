@@ -10,9 +10,11 @@ set -euo pipefail
 TABLE_NAME="${TABLE_NAME:-venture-radar-signals}"
 FUNCTION_NAME="${FUNCTION_NAME:-venture-radar-weekly-summary}"
 RULE_NAME="${RULE_NAME:-venture-radar-weekly-summary}"
+HIGHLIGHT_RULE_NAME="${HIGHLIGHT_RULE_NAME:-venture-radar-weekly-company-highlight}"
 ROLE_NAME="${ROLE_NAME:-venture-radar-weekly-summary-role}"
 SECRET_NAME="${SECRET_NAME:-venture-radar/llm-credentials}"
 SCHEDULE_EXPRESSION="${SCHEDULE_EXPRESSION:-cron(30 14 ? * MON *)}"
+HIGHLIGHT_SCHEDULE_EXPRESSION="${HIGHLIGHT_SCHEDULE_EXPRESSION:-cron(0 15 ? * MON *)}"
 LLM_PROVIDER="${LLM_PROVIDER:-anthropic}"
 LLM_MODEL="${LLM_MODEL:-claude-sonnet-4-6}"
 REGION="${AWS_REGION:-$(aws configure get region)}"
@@ -137,8 +139,32 @@ aws events put-targets \
   --targets "Id=${FUNCTION_NAME},Arn=${FUNCTION_ARN}" \
   --region "${REGION}" >/dev/null
 
+echo "Creating or updating company highlight schedule..."
+aws events put-rule \
+  --name "${HIGHLIGHT_RULE_NAME}" \
+  --schedule-expression "${HIGHLIGHT_SCHEDULE_EXPRESSION}" \
+  --state ENABLED \
+  --description "Run Venture Radar weekly company highlight after memo generation." \
+  --region "${REGION}" >/dev/null
+
+HIGHLIGHT_RULE_ARN="$(aws events describe-rule --name "${HIGHLIGHT_RULE_NAME}" --region "${REGION}" --query Arn --output text)"
+
+aws lambda add-permission \
+  --function-name "${FUNCTION_NAME}" \
+  --statement-id "${HIGHLIGHT_RULE_NAME}-invoke" \
+  --action lambda:InvokeFunction \
+  --principal events.amazonaws.com \
+  --source-arn "${HIGHLIGHT_RULE_ARN}" \
+  --region "${REGION}" >/dev/null 2>&1 || true
+
+aws events put-targets \
+  --rule "${HIGHLIGHT_RULE_NAME}" \
+  --targets "Id=${FUNCTION_NAME}-company-highlight,Arn=${FUNCTION_ARN},Input={\"task\":\"company-highlight\"}" \
+  --region "${REGION}" >/dev/null
+
 echo "Deployed weekly summarization:"
 echo "  Table:    ${TABLE_NAME} (existing)"
 echo "  Secret:   ${SECRET_NAME}"
 echo "  Function: ${FUNCTION_NAME} (timeout 900s)"
 echo "  Schedule: ${SCHEDULE_EXPRESSION}"
+echo "  Highlight schedule: ${HIGHLIGHT_SCHEDULE_EXPRESSION}"

@@ -6,7 +6,7 @@ import themesData from "../data/themes.json";
 import { BackgroundEffects } from "./BackgroundEffects";
 import { selectDealMemoTarget } from "./lib/dealMemo";
 import { generatePartnerMemo } from "./lib/memo";
-import { getLatestWeeklyMemo } from "./lib/weeklyMemo";
+import { getLatestCompanyHighlight, getLatestWeeklyMemo } from "./lib/weeklyMemo";
 import type { Firm, PartnerAccount, Signal, VcTheme } from "./lib/types";
 
 // Read the latest memo from DynamoDB on every request (no build-time caching),
@@ -138,6 +138,7 @@ function ThemeCard({ theme, rank }: { theme: DisplayTheme; rank: number }) {
 
 export default async function Home() {
   const weekly = await getLatestWeeklyMemo();
+  const companyHighlight = await getLatestCompanyHighlight(weekly?.weekKey);
   const liveMode = Boolean(weekly);
 
   const themes: DisplayTheme[] = liveMode
@@ -168,6 +169,7 @@ export default async function Home() {
   const seedMemoParagraphs = liveMode ? [] : generatePartnerMemo(seedThemes, seedSignals);
   const generatedAt = liveMode ? weekly!.meta.generatedAt : null;
   const dealMemoTarget = selectDealMemoTarget({
+    companyHighlight,
     generatedAt,
     memoBody,
     themes,

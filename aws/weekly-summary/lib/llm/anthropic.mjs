@@ -42,6 +42,47 @@ const SYNTHESIS_SCHEMA = {
   additionalProperties: false
 };
 
+const COMPANY_HIGHLIGHT_SCHEMA = {
+  type: "object",
+  properties: {
+    company: { type: "string" },
+    website: { type: "string" },
+    stage: { type: "string" },
+    category: { type: "string" },
+    description: { type: "string" },
+    whyMatchesMemo: { type: "string" },
+    matchedThemes: { type: "array", items: { type: "string" } },
+    knownDetails: { type: "string" },
+    competitors: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          name: { type: "string" },
+          url: { type: "string" },
+          positioning: { type: "string" }
+        },
+        required: ["name", "url", "positioning"],
+        additionalProperties: false
+      }
+    },
+    sources: {
+      type: "array",
+      items: {
+        type: "object",
+        properties: {
+          title: { type: "string" },
+          url: { type: "string" }
+        },
+        required: ["title", "url"],
+        additionalProperties: false
+      }
+    }
+  },
+  required: ["company", "website", "stage", "category", "description", "whyMatchesMemo", "matchedThemes", "knownDetails", "competitors", "sources"],
+  additionalProperties: false
+};
+
 function chunk(items, size) {
   const out = [];
   for (let i = 0; i < items.length; i += size) out.push(items.slice(i, i + size));
@@ -120,6 +161,42 @@ export function createAnthropicClient({ apiKey, model }) {
         messages: [{ role: "user", content: buildSynthesisUserText({ weekKey, rankedThemes, firmResearch, tweetsByTheme }) }]
       });
       return parseSynthesisResponse(textOf(message.content), rankedThemes, firmResearch);
+    },
+
+    async findCompanyHighlight({ weekKey, memo, themes }) {
+      const themeContext = themes.map((theme) => [
+        `Theme: ${theme.name}`,
+        `Signal strength: ${theme.signalStrength}`,
+        `Firms: ${(theme.firmsInvolved ?? []).join(", ")}`,
+        `What they are saying: ${theme.whatTheyAreSaying}`,
+        `Why it matters: ${theme.whyItMatters}`
+      ].join("\n")).join("\n\n");
+
+      const message = await client.messages.create({
+        model,
+        max_tokens: 4096,
+        output_config: { format: { type: "json_schema", schema: COMPANY_HIGHLIGHT_SCHEMA } },
+        tools: [{ type: "web_search_20260209", name: "web_search", max_uses: 10 }],
+        messages: [{
+          role: "user",
+          content: [
+            "You are a venture research analyst for LAUNCH.",
+            `Find exactly one real Seed or Series A startup that most closely matches the weekly partner memo for the week of ${weekKey}.`,
+            "Use web search. Prefer companies with credible current public evidence, a clear website, and fit to the memo themes.",
+            "Do not pick a public company, a late-stage company, or a company without public evidence. If stage is uncertain, say Unknown but only if it otherwise strongly fits.",
+            "Return only JSON that matches the requested schema.",
+            "",
+            "WEEKLY MEMO:",
+            `Title: ${memo.title}`,
+            memo.body,
+            "",
+            "THEMES:",
+            themeContext
+          ].join("\n")
+        }]
+      });
+
+      return JSON.parse(textOf(message.content));
     }
   };
 }

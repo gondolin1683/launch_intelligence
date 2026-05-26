@@ -1,7 +1,7 @@
 import themesData from "../../../data/themes.json";
 import { buildDealMemoPdf, generateDealMemoWithSonnet, selectDealMemoTarget } from "../../lib/dealMemo";
 import type { VcTheme } from "../../lib/types";
-import { getLatestWeeklyMemo } from "../../lib/weeklyMemo";
+import { getLatestCompanyHighlight, getLatestWeeklyMemo } from "../../lib/weeklyMemo";
 
 export const dynamic = "force-dynamic";
 export const maxDuration = 60;
@@ -16,6 +16,7 @@ function isoWeekKey(date = new Date()) {
 
 export async function GET() {
   const weekly = await getLatestWeeklyMemo();
+  const companyHighlight = await getLatestCompanyHighlight(weekly?.weekKey);
   const seedThemes = (themesData as VcTheme[]).map((theme) => ({
     name: theme.name,
     signalStrength: theme.signalStrength,
@@ -27,6 +28,7 @@ export async function GET() {
   }));
 
   const input = {
+    companyHighlight,
     generatedAt: weekly?.meta.generatedAt ?? null,
     memoBody: weekly?.memo.body ?? null,
     themes: weekly?.themes ?? seedThemes,

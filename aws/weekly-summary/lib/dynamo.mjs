@@ -1,4 +1,4 @@
-import { QueryCommand, PutCommand } from "@aws-sdk/lib-dynamodb";
+import { GetCommand, QueryCommand, PutCommand } from "@aws-sdk/lib-dynamodb";
 
 export async function readWeekTweets(ddb, table, weekKey) {
   const items = [];
@@ -21,4 +21,12 @@ export async function putItems(ddb, table, items) {
   for (const item of items) {
     await ddb.send(new PutCommand({ TableName: table, Item: item }));
   }
+}
+
+export async function readLatestMemo(ddb, table, weekKey) {
+  const res = await ddb.send(new GetCommand({
+    TableName: table,
+    Key: { PK: `WEEK#${weekKey}`, SK: "SUMMARY#LATEST" }
+  }));
+  return res.Item ?? null;
 }
