@@ -1,0 +1,416 @@
+[
+  {
+    "name": "Bogomil Balkansky",
+    "firm": "Sequoia",
+    "handle": "bogiebalkansky",
+    "type": "partner",
+    "platform": "X",
+    "role": "Partner",
+    "sourceUrl": "https://sequoiacap.com/people/bogomil-balkansky/"
+  },
+  {
+    "name": "Roelof Botha",
+    "firm": "Sequoia",
+    "handle": "roelofbotha",
+    "type": "partner",
+    "platform": "X",
+    "role": "Partner",
+    "sourceUrl": "https://sequoiacap.com/people/roelof-botha/"
+  },
+  {
+    "name": "Konstantine Buhler",
+    "firm": "Sequoia",
+    "handle": "Konstantine",
+    "type": "partner",
+    "platform": "X",
+    "role": "Partner",
+    "sourceUrl": "https://sequoiacap.com/people/konstantine-buhler/"
+  },
+  {
+    "name": "Josephine Chen",
+    "firm": "Sequoia",
+    "handle": "josephinekchen",
+    "type": "partner",
+    "platform": "X",
+    "role": "Partner",
+    "sourceUrl": "https://sequoiacap.com/people/josephine-chen/"
+  },
+  {
+    "name": "Jim Goetz",
+    "firm": "Sequoia",
+    "handle": "jimgoetz",
+    "type": "partner",
+    "platform": "X",
+    "role": "Partner",
+    "sourceUrl": "https://sequoiacap.com/people/jim-goetz/"
+  },
+  {
+    "name": "Jess Lee",
+    "firm": "Sequoia",
+    "handle": "jesskah",
+    "type": "partner",
+    "platform": "X",
+    "role": "Partner",
+    "sourceUrl": "https://sequoiacap.com/people/jess-lee/"
+  },
+  {
+    "name": "Alfred Lin",
+    "firm": "Sequoia",
+    "handle": "Alfred_Lin",
+    "type": "partner",
+    "platform": "X",
+    "role": "Partner",
+    "sourceUrl": "https://sequoiacap.com/people/alfred-lin/"
+  },
+  {
+    "name": "Luciana Lixandru",
+    "firm": "Sequoia",
+    "handle": "LucianaLix",
+    "type": "partner",
+    "platform": "X",
+    "role": "Partner",
+    "sourceUrl": "https://sequoiacap.com/people/luciana-lixandru/"
+  },
+  {
+    "name": "Shaun Maguire",
+    "firm": "Sequoia",
+    "handle": "shaunmmaguire",
+    "type": "partner",
+    "platform": "X",
+    "role": "Partner",
+    "sourceUrl": "https://sequoiacap.com/people/shaun-maguire/"
+  },
+  {
+    "name": "Bryan Schreier",
+    "firm": "Sequoia",
+    "handle": "schreier",
+    "type": "partner",
+    "platform": "X",
+    "role": "Partner",
+    "sourceUrl": "https://sequoiacap.com/people/bryan-schreier/"
+  },
+  {
+    "name": "Stephanie Zhan",
+    "firm": "Sequoia",
+    "handle": "stephzhan",
+    "type": "partner",
+    "platform": "X",
+    "role": "Partner",
+    "sourceUrl": "https://sequoiacap.com/people/stephanie-zhan/"
+  },
+  {
+    "name": "Marc Andreessen",
+    "firm": "a16z",
+    "handle": "pmarca",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/marc-andreessen/"
+  },
+  {
+    "name": "Ben Horowitz",
+    "firm": "a16z",
+    "handle": "bhorowitz",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/ben-horowitz/"
+  },
+  {
+    "name": "Martin Casado",
+    "firm": "a16z",
+    "handle": "martin_casado",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/martin-casado/"
+  },
+  {
+    "name": "Katherine Boyle",
+    "firm": "a16z",
+    "handle": "KTmBoyle",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/katherine-boyle/"
+  },
+  {
+    "name": "Anjney Midha",
+    "firm": "a16z",
+    "handle": "AnjneyMidha",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/anjney-midha/"
+  },
+  {
+    "name": "Andrew Chen",
+    "firm": "a16z",
+    "handle": "andrewchen",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/andrew-chen/"
+  },
+  {
+    "name": "Alex Rampell",
+    "firm": "a16z",
+    "handle": "arampell",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/alex-rampell/"
+  },
+  {
+    "name": "Angela Strange",
+    "firm": "a16z",
+    "handle": "astrange",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/angela-strange/"
+  },
+  {
+    "name": "Anish Acharya",
+    "firm": "a16z",
+    "handle": "illscience",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/anish-acharya/"
+  },
+  {
+    "name": "Chris Dixon",
+    "firm": "a16z",
+    "handle": "cdixon",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/chris-dixon/"
+  },
+  {
+    "name": "Connie Chan",
+    "firm": "a16z",
+    "handle": "conniechan",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/connie-chan/"
+  },
+  {
+    "name": "David Ulevitch",
+    "firm": "a16z",
+    "handle": "davidu",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/david-ulevitch/"
+  },
+  {
+    "name": "Guido Appenzeller",
+    "firm": "a16z",
+    "handle": "appenz",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/guido-appenzeller/"
+  },
+  {
+    "name": "Jorge Conde",
+    "firm": "a16z",
+    "handle": "jorgecondebio",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/jorge-conde/"
+  },
+  {
+    "name": "Julie Yoo",
+    "firm": "a16z",
+    "handle": "julesyoo",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/julie-yoo/"
+  },
+  {
+    "name": "Justine Moore",
+    "firm": "a16z",
+    "handle": "venturetwins",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/justine-moore/"
+  },
+  {
+    "name": "Matt Bornstein",
+    "firm": "a16z",
+    "handle": "BornsteinMatt",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/matt-bornstein/"
+  },
+  {
+    "name": "Olivia Moore",
+    "firm": "a16z",
+    "handle": "omooretweets",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/olivia-moore/"
+  },
+  {
+    "name": "Sarah Wang",
+    "firm": "a16z",
+    "handle": "SarahDingWang",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/sarah-wang/"
+  },
+  {
+    "name": "Vineeta Agarwala",
+    "firm": "a16z",
+    "handle": "vintweeta",
+    "type": "partner",
+    "platform": "X",
+    "role": "Investing",
+    "sourceUrl": "https://a16z.com/author/vineeta-agarwala/"
+  },
+  {
+    "name": "Garry Tan",
+    "firm": "YC",
+    "handle": "garrytan",
+    "type": "partner",
+    "platform": "X",
+    "role": "President and CEO",
+    "sourceUrl": "https://www.ycombinator.com/people/garry-tan"
+  },
+  {
+    "name": "Gustaf Alstromer",
+    "firm": "YC",
+    "handle": "gustaf",
+    "type": "partner",
+    "platform": "X",
+    "role": "Group Partner",
+    "sourceUrl": "https://www.ycombinator.com/people/gustaf-alstromer"
+  },
+  {
+    "name": "Harshita Arora",
+    "firm": "YC",
+    "handle": "aroraharshita33",
+    "type": "partner",
+    "platform": "X",
+    "role": "Group Partner",
+    "sourceUrl": "https://www.ycombinator.com/people/harshita-arora"
+  },
+  {
+    "name": "Tom Blomfield",
+    "firm": "YC",
+    "handle": "t_blom",
+    "type": "partner",
+    "platform": "X",
+    "role": "Group Partner",
+    "sourceUrl": "https://www.ycombinator.com/people/tom-blomfield"
+  },
+  {
+    "name": "Tyler Bosmeny",
+    "firm": "YC",
+    "handle": "bosmeny",
+    "type": "partner",
+    "platform": "X",
+    "role": "Group Partner",
+    "sourceUrl": "https://www.ycombinator.com/people/tyler-bosmeny"
+  },
+  {
+    "name": "Nicolas Dessaigne",
+    "firm": "YC",
+    "handle": "dessaigne",
+    "type": "partner",
+    "platform": "X",
+    "role": "Group Partner",
+    "sourceUrl": "https://www.ycombinator.com/people/nicolas-dessaigne"
+  },
+  {
+    "name": "Aaron Epstein",
+    "firm": "YC",
+    "handle": "dvdsgl",
+    "type": "partner",
+    "platform": "X",
+    "role": "Group Partner",
+    "sourceUrl": "https://www.ycombinator.com/people/aaron-epstein"
+  },
+  {
+    "name": "Brad Flora",
+    "firm": "YC",
+    "handle": "bradflora",
+    "type": "partner",
+    "platform": "X",
+    "role": "Group Partner",
+    "sourceUrl": "https://www.ycombinator.com/people/brad-flora"
+  },
+  {
+    "name": "Jared Friedman",
+    "firm": "YC",
+    "handle": "snowmaker",
+    "type": "partner",
+    "platform": "X",
+    "role": "Group Partner",
+    "sourceUrl": "https://www.ycombinator.com/people/jared-friedman"
+  },
+  {
+    "name": "Ankit Gupta",
+    "firm": "YC",
+    "handle": "agupta",
+    "type": "partner",
+    "platform": "X",
+    "role": "Group Partner",
+    "sourceUrl": "https://www.ycombinator.com/people/ankit-gupta"
+  },
+  {
+    "name": "Diana Hu",
+    "firm": "YC",
+    "handle": "sdianahu",
+    "type": "partner",
+    "platform": "X",
+    "role": "Group Partner",
+    "sourceUrl": "https://www.ycombinator.com/people/diana-hu"
+  },
+  {
+    "name": "Pete Koomen",
+    "firm": "YC",
+    "handle": "koomen",
+    "type": "partner",
+    "platform": "X",
+    "role": "Group Partner",
+    "sourceUrl": "https://www.ycombinator.com/people/pete-koomen"
+  },
+  {
+    "name": "David Lieb",
+    "firm": "YC",
+    "handle": "dflieb",
+    "type": "partner",
+    "platform": "X",
+    "role": "Group Partner",
+    "sourceUrl": "https://www.ycombinator.com/people/david-lieb"
+  },
+  {
+    "name": "Harj Taggar",
+    "firm": "YC",
+    "handle": "harjtaggar",
+    "type": "partner",
+    "platform": "X",
+    "role": "Group Partner",
+    "sourceUrl": "https://www.ycombinator.com/people/harj-taggar"
+  },
+  {
+    "name": "Jon Xu",
+    "firm": "YC",
+    "handle": "xuster",
+    "type": "partner",
+    "platform": "X",
+    "role": "Group Partner",
+    "sourceUrl": "https://www.ycombinator.com/people/jon-xu"
+  }
+]

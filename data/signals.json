@@ -1,0 +1,290 @@
+[
+  {
+    "id": "signal_001",
+    "source": "X",
+    "firm": "a16z",
+    "author": "Anjney Midha",
+    "authorType": "partner",
+    "content": "AI agents are moving from copilots to workflow owners. The next wave is systems that can observe, decide, and execute inside a business process with human checkpoints.",
+    "summary": "Partner is discussing AI agents taking ownership of business workflows.",
+    "theme": "AI Agents",
+    "publishedAt": "2026-05-23",
+    "url": "https://x.com/example/status/1001",
+    "engagement": {
+      "likes": 1420,
+      "reposts": 214,
+      "replies": 51
+    },
+    "relevance": "High"
+  },
+  {
+    "id": "signal_002",
+    "source": "X",
+    "firm": "Sequoia",
+    "author": "Pat Grady",
+    "authorType": "partner",
+    "content": "The best AI apps are beginning to look less like chat boxes and more like full operating systems for a job function.",
+    "summary": "Sequoia partner frames vertical AI systems as workflow operating systems.",
+    "theme": "Vertical AI",
+    "publishedAt": "2026-05-22",
+    "url": "https://x.com/example/status/1002",
+    "engagement": {
+      "likes": 980,
+      "reposts": 133,
+      "replies": 39
+    },
+    "relevance": "High"
+  },
+  {
+    "id": "signal_003",
+    "source": "X",
+    "firm": "YC",
+    "author": "Garry Tan",
+    "authorType": "partner",
+    "content": "If you are building in robotics, AI infra, or healthcare automation and can show customer pull, YC wants to meet you.",
+    "summary": "YC is explicitly encouraging founders in robotics, AI infrastructure, and healthcare automation.",
+    "theme": "Robotics / Physical AI",
+    "publishedAt": "2026-05-22",
+    "url": "https://x.com/example/status/1003",
+    "engagement": {
+      "likes": 2120,
+      "reposts": 330,
+      "replies": 76
+    },
+    "relevance": "High"
+  },
+  {
+    "id": "signal_004",
+    "source": "X",
+    "firm": "a16z",
+    "author": "Martin Casado",
+    "authorType": "partner",
+    "content": "Inference costs are the new cloud bill. Teams that make evals, routing, caching, and observability boring will become default AI infrastructure.",
+    "summary": "Partner highlights inference optimization and observability as durable AI infrastructure opportunities.",
+    "theme": "AI Infrastructure",
+    "publishedAt": "2026-05-21",
+    "url": "https://x.com/example/status/1004",
+    "engagement": {
+      "likes": 1760,
+      "reposts": 286,
+      "replies": 64
+    },
+    "relevance": "High"
+  },
+  {
+    "id": "signal_006",
+    "source": "X",
+    "firm": "YC",
+    "author": "Diana Hu",
+    "authorType": "partner",
+    "content": "The fastest-growing YC companies increasingly wedge into a painful back-office workflow, then expand into the system of record.",
+    "summary": "YC partner describes vertical AI wedge patterns that can become systems of record.",
+    "theme": "Vertical AI",
+    "publishedAt": "2026-05-20",
+    "url": "https://x.com/example/status/1006",
+    "engagement": {
+      "likes": 840,
+      "reposts": 102,
+      "replies": 27
+    },
+    "relevance": "High"
+  },
+  {
+    "id": "signal_007",
+    "source": "X",
+    "firm": "Sequoia",
+    "author": "Stephanie Zhan",
+    "authorType": "partner",
+    "content": "Healthcare AI that earns trust will not be a generic assistant. It will be embedded in clinical, billing, and care coordination loops with measurable outcomes.",
+    "summary": "Partner points to healthcare AI embedded in operational workflows, not generic copilots.",
+    "theme": "Healthcare AI",
+    "publishedAt": "2026-05-20",
+    "url": "https://x.com/example/status/1007",
+    "engagement": {
+      "likes": 730,
+      "reposts": 91,
+      "replies": 22
+    },
+    "relevance": "High"
+  },
+  {
+    "id": "signal_008",
+    "source": "X",
+    "firm": "a16z",
+    "author": "Katherine Boyle",
+    "authorType": "partner",
+    "content": "Defense founders are learning to sell software with product velocity and procurement empathy. The market wants usable systems, not just demos.",
+    "summary": "a16z partner emphasizes defense software teams with product speed and procurement awareness.",
+    "theme": "Defense Tech",
+    "publishedAt": "2026-05-19",
+    "url": "https://x.com/example/status/1008",
+    "engagement": {
+      "likes": 1580,
+      "reposts": 241,
+      "replies": 58
+    },
+    "relevance": "High"
+  },
+  {
+    "id": "signal_009",
+    "source": "X",
+    "firm": "YC",
+    "author": "Airfront",
+    "authorType": "founder",
+    "content": "We are seeing logistics teams ask for agents that can monitor exceptions, call carriers, and update customers without waiting for a dispatcher.",
+    "summary": "YC-style founder signal for AI agents in logistics operations.",
+    "theme": "AI Agents",
+    "publishedAt": "2026-05-19",
+    "url": "https://x.com/example/status/1009",
+    "engagement": {
+      "likes": 310,
+      "reposts": 44,
+      "replies": 12
+    },
+    "relevance": "Medium"
+  },
+  {
+    "id": "signal_011",
+    "source": "X",
+    "firm": "Sequoia",
+    "author": "Naveen Rao",
+    "authorType": "partner",
+    "content": "AI infrastructure is splitting into layers: model serving, data pipelines, evals, observability, security, and agent orchestration. Each can become a company.",
+    "summary": "Sequoia partner breaks down AI infrastructure into investable layers.",
+    "theme": "AI Infrastructure",
+    "publishedAt": "2026-05-18",
+    "url": "https://x.com/example/status/1011",
+    "engagement": {
+      "likes": 1090,
+      "reposts": 168,
+      "replies": 36
+    },
+    "relevance": "High"
+  },
+  {
+    "id": "signal_012",
+    "source": "YC RFS",
+    "firm": "YC",
+    "author": "Y Combinator",
+    "authorType": "firm",
+    "content": "Request for Startups: AI tools for nurses, care coordinators, and revenue cycle teams that reduce administrative burden in healthcare.",
+    "summary": "YC RFS explicitly asks for healthcare AI reducing administrative burden.",
+    "theme": "Healthcare AI",
+    "publishedAt": "2026-05-17",
+    "url": "https://www.ycombinator.com/rfs",
+    "engagement": {
+      "likes": 690,
+      "reposts": 122,
+      "replies": 31
+    },
+    "relevance": "High"
+  },
+  {
+    "id": "signal_014",
+    "source": "X",
+    "firm": "a16z",
+    "author": "Marc Andreessen",
+    "authorType": "partner",
+    "content": "The boring vertical workflow that saves ten hours a week is often a better AI company than the dazzling demo.",
+    "summary": "Partner reinforces pragmatic vertical AI workflows over broad demo products.",
+    "theme": "Vertical AI",
+    "publishedAt": "2026-05-16",
+    "url": "https://x.com/example/status/1014",
+    "engagement": {
+      "likes": 2360,
+      "reposts": 410,
+      "replies": 88
+    },
+    "relevance": "High"
+  },
+  {
+    "id": "signal_015",
+    "source": "Company Blog",
+    "firm": "YC",
+    "author": "MedBill AI",
+    "authorType": "founder",
+    "content": "We launched a denial management agent that reads payer policy, drafts appeals, and learns from revenue cycle team feedback.",
+    "summary": "Founder signal for healthcare back-office automation with agentic workflow learning.",
+    "theme": "Healthcare AI",
+    "publishedAt": "2026-05-16",
+    "url": "https://example.com/medbill-ai-launch",
+    "engagement": {
+      "likes": 260,
+      "reposts": 37,
+      "replies": 9
+    },
+    "relevance": "Medium"
+  },
+  {
+    "id": "signal_016",
+    "source": "X",
+    "firm": "Sequoia",
+    "author": "Shaun Maguire",
+    "authorType": "partner",
+    "content": "Defense tech is becoming a software market with urgent customers, modern buyers, and a new founder profile.",
+    "summary": "Sequoia partner describes defense tech as a faster-moving software market.",
+    "theme": "Defense Tech",
+    "publishedAt": "2026-05-15",
+    "url": "https://x.com/example/status/1016",
+    "engagement": {
+      "likes": 1180,
+      "reposts": 197,
+      "replies": 49
+    },
+    "relevance": "High"
+  },
+  {
+    "id": "signal_017",
+    "source": "X",
+    "firm": "YC",
+    "author": "BuildOps AI",
+    "authorType": "founder",
+    "content": "Field service companies want AI that schedules techs, orders parts, and follows up with customers from the same workflow.",
+    "summary": "Founder describes vertical AI demand in field service operations.",
+    "theme": "Vertical AI",
+    "publishedAt": "2026-05-15",
+    "url": "https://x.com/example/status/1017",
+    "engagement": {
+      "likes": 390,
+      "reposts": 52,
+      "replies": 17
+    },
+    "relevance": "Medium"
+  },
+  {
+    "id": "signal_019",
+    "source": "X",
+    "firm": "YC",
+    "author": "Harj Taggar",
+    "authorType": "partner",
+    "content": "Developer tools with obvious ROI are still winning. AI helps most when it shortens debugging, deployment, and compliance work that teams already pay for.",
+    "summary": "YC partner highlights ROI-driven AI developer tools.",
+    "theme": "DevTools",
+    "publishedAt": "2026-05-14",
+    "url": "https://x.com/example/status/1019",
+    "engagement": {
+      "likes": 760,
+      "reposts": 97,
+      "replies": 25
+    },
+    "relevance": "High"
+  },
+  {
+    "id": "signal_021",
+    "source": "Product Hunt",
+    "firm": "YC",
+    "author": "EvalGrid",
+    "authorType": "founder",
+    "content": "EvalGrid helps AI teams compare agent runs across cost, latency, tool use, and customer outcome metrics.",
+    "summary": "Founder launch in eval tooling for AI agents and infrastructure teams.",
+    "theme": "AI Infrastructure",
+    "publishedAt": "2026-05-13",
+    "url": "https://example.com/evalgrid",
+    "engagement": {
+      "likes": 210,
+      "reposts": 31,
+      "replies": 8
+    },
+    "relevance": "Medium"
+  }
+]

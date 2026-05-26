@@ -1,0 +1,112 @@
+[
+  {
+    "id": "opp_001",
+    "company": "OpsPilot AI",
+    "category": "AI Agents",
+    "source": "YC",
+    "relatedThemes": ["AI Agents", "Vertical AI"],
+    "relatedSignals": ["signal_001", "signal_006", "signal_009", "signal_014"],
+    "score": 92,
+    "whyFlagged": "Matches repeated partner discussion around agentic workflow automation and founder activity in logistics operations.",
+    "recommendedAction": "Research founder, validate customer pull, and add to LAUNCH watchlist."
+  },
+  {
+    "id": "opp_002",
+    "company": "EvalGrid",
+    "category": "AI Infrastructure",
+    "source": "Product Hunt",
+    "relatedThemes": ["AI Infrastructure", "AI Agents"],
+    "relatedSignals": ["signal_004", "signal_011", "signal_018", "signal_021"],
+    "score": 88,
+    "whyFlagged": "Directly maps to inference cost, eval, observability, and agent monitoring signals from a16z and Sequoia.",
+    "recommendedAction": "Run competitive scan and look for technical founder-market fit."
+  },
+  {
+    "id": "opp_003",
+    "company": "MedBill AI",
+    "category": "Healthcare AI",
+    "source": "YC",
+    "relatedThemes": ["Healthcare AI", "AI Agents"],
+    "relatedSignals": ["signal_007", "signal_012", "signal_015"],
+    "score": 86,
+    "whyFlagged": "YC RFS and partner commentary both point toward administrative healthcare AI with measurable workflow ROI.",
+    "recommendedAction": "Monitor traction and identify comparable revenue cycle automation startups."
+  },
+  {
+    "id": "opp_004",
+    "company": "FieldLoop",
+    "category": "Vertical AI",
+    "source": "YC",
+    "relatedThemes": ["Vertical AI", "AI Agents"],
+    "relatedSignals": ["signal_002", "signal_006", "signal_014", "signal_017"],
+    "score": 85,
+    "whyFlagged": "Field service workflow automation aligns with vertical AI operating-system thesis across all three tracked firms.",
+    "recommendedAction": "Interview field service operators and map incumbent software gaps."
+  },
+  {
+    "id": "opp_005",
+    "company": "RepoPilot",
+    "category": "DevTools",
+    "source": "Partner and founder signal",
+    "relatedThemes": ["DevTools", "AI Agents"],
+    "relatedSignals": ["signal_005", "signal_010", "signal_019"],
+    "score": 83,
+    "whyFlagged": "Coding agents are shifting from assistant mode into repo ownership, with partner commentary reinforcing durable DevTools demand.",
+    "recommendedAction": "Track launches and compare against existing coding agent leaders."
+  },
+  {
+    "id": "opp_006",
+    "company": "NurseFlow",
+    "category": "Healthcare AI",
+    "source": "YC RFS",
+    "relatedThemes": ["Healthcare AI", "Vertical AI"],
+    "relatedSignals": ["signal_007", "signal_012", "signal_015"],
+    "score": 82,
+    "whyFlagged": "Nurse workflow automation fits YC RFS language and Sequoia's embedded clinical workflow thesis.",
+    "recommendedAction": "Build target list of nurse workflow founders and clinical ops communities."
+  },
+  {
+    "id": "opp_007",
+    "company": "FieldAware Robotics",
+    "category": "Robotics / Physical AI",
+    "source": "Founder social",
+    "relatedThemes": ["Robotics / Physical AI", "AI Infrastructure"],
+    "relatedSignals": ["signal_003", "signal_013", "signal_022"],
+    "score": 80,
+    "whyFlagged": "Robotics signals cluster around real-world data loops and constrained production deployments.",
+    "recommendedAction": "Watch for pilots in warehouses, manufacturing, and inspection."
+  },
+  {
+    "id": "opp_008",
+    "company": "ProcureOps Defense",
+    "category": "Defense Tech",
+    "source": "a16z partner post",
+    "relatedThemes": ["Defense Tech", "Vertical AI"],
+    "relatedSignals": ["signal_008", "signal_016", "signal_020"],
+    "score": 79,
+    "whyFlagged": "Defense software opportunity is supported by repeated partner commentary around procurement fluency and autonomous systems requirements.",
+    "recommendedAction": "Identify founders with procurement fluency and defense customer access."
+  },
+  {
+    "id": "opp_009",
+    "company": "AgentGuard",
+    "category": "AI Infrastructure",
+    "source": "a16z partner signal",
+    "relatedThemes": ["AI Infrastructure", "Defense Tech"],
+    "relatedSignals": ["signal_004", "signal_018", "signal_020"],
+    "score": 78,
+    "whyFlagged": "Security, policy enforcement, and observability for agent fleets appear repeatedly in infrastructure and defense contexts.",
+    "recommendedAction": "Map buyer urgency among security teams adopting agents."
+  },
+  {
+    "id": "opp_010",
+    "company": "CarrierDesk",
+    "category": "AI Agents",
+    "source": "Founder social",
+    "relatedThemes": ["AI Agents", "Vertical AI"],
+    "relatedSignals": ["signal_001", "signal_009", "signal_017"],
+    "score": 76,
+    "whyFlagged": "Logistics exception handling is a concrete workflow where agent autonomy can show near-term ROI.",
+    "recommendedAction": "Validate with 5 logistics operators and check for YC batch overlap."
+  }
+]

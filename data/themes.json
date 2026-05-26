@@ -1,0 +1,86 @@
+[
+  {
+    "id": "theme_vertical_ai",
+    "name": "Vertical AI Workflow Systems",
+    "signalStrength": 94,
+    "firmsInvolved": ["Sequoia", "a16z", "YC"],
+    "partnerSignalCount": 6,
+    "investmentActivityCount": 3,
+    "whatTheyAreSaying": "Partners are framing the strongest AI companies as workflow systems for specific job functions, not generic chat products.",
+    "whyItMatters": "This points LAUNCH toward founder discovery in narrow operational markets where AI can become the system of record after solving a painful wedge workflow.",
+    "representativeSignals": ["signal_002", "signal_006", "signal_014"],
+    "relatedCompanies": ["FieldLoop", "BuildOps AI", "OpsPilot AI"]
+  },
+  {
+    "id": "theme_ai_infra",
+    "name": "AI Infrastructure for Agent Reliability",
+    "signalStrength": 92,
+    "firmsInvolved": ["Sequoia", "a16z", "YC"],
+    "partnerSignalCount": 4,
+    "investmentActivityCount": 2,
+    "whatTheyAreSaying": "Partners are talking about inference cost, evals, routing, observability, security, and orchestration as the next AI infrastructure layers.",
+    "whyItMatters": "As enterprises move from pilots to production agents, reliability tooling becomes budget-bearing infrastructure instead of experimental developer tooling.",
+    "representativeSignals": ["signal_004", "signal_011", "signal_021"],
+    "relatedCompanies": ["EvalGrid", "AgentGuard", "RunReveal"]
+  },
+  {
+    "id": "theme_enterprise_agents",
+    "name": "AI Agents for Enterprise Workflows",
+    "signalStrength": 90,
+    "firmsInvolved": ["a16z", "YC"],
+    "partnerSignalCount": 3,
+    "investmentActivityCount": 2,
+    "whatTheyAreSaying": "Partners and founders are increasingly discussing AI agents moving from copilots into workflow ownership with human checkpoints.",
+    "whyItMatters": "Investor interest appears to be shifting toward AI-native software that can automate measurable business functions and show clear ROI in weeks.",
+    "representativeSignals": ["signal_001", "signal_009", "signal_017"],
+    "relatedCompanies": ["OpsPilot AI", "CarrierDesk", "Airfront"]
+  },
+  {
+    "id": "theme_devtools_agents",
+    "name": "Agentic DevTools and Repo Ownership",
+    "signalStrength": 87,
+    "firmsInvolved": ["Sequoia", "a16z", "YC"],
+    "partnerSignalCount": 2,
+    "investmentActivityCount": 2,
+    "whatTheyAreSaying": "VC partners are describing coding agents as long-running owners of repo maintenance, debugging, deployment, and compliance work.",
+    "whyItMatters": "DevTools remain a LAUNCH-friendly category when the product shortens expensive engineering loops and has obvious bottoms-up adoption.",
+    "representativeSignals": ["signal_019", "signal_004", "signal_001"],
+    "relatedCompanies": ["RepoPilot", "Factory", "Cognition Labs"]
+  },
+  {
+    "id": "theme_healthcare_ai",
+    "name": "Healthcare AI for Administrative Burden",
+    "signalStrength": 84,
+    "firmsInvolved": ["Sequoia", "YC"],
+    "partnerSignalCount": 2,
+    "investmentActivityCount": 2,
+    "whatTheyAreSaying": "YC and Sequoia signals emphasize AI embedded in healthcare operations: nurse workflows, care coordination, billing, and revenue cycle automation.",
+    "whyItMatters": "Administrative healthcare workflows have urgent labor pressure, clear budgets, and measurable outcomes, making them strong research targets for seed-stage founders.",
+    "representativeSignals": ["signal_007", "signal_012", "signal_015"],
+    "relatedCompanies": ["MedBill AI", "NurseFlow", "CareQueue"]
+  },
+  {
+    "id": "theme_physical_ai",
+    "name": "Robotics and Physical AI Data Loops",
+    "signalStrength": 80,
+    "firmsInvolved": ["Sequoia", "YC"],
+    "partnerSignalCount": 1,
+    "investmentActivityCount": 2,
+    "whatTheyAreSaying": "YC is calling for robotics founders while Sequoia partners emphasize real-world deployment, production workflows, and operational learning loops.",
+    "whyItMatters": "Physical AI is moving from impressive demos toward constrained commercial deployments, where early customer pilots can reveal investable wedge markets.",
+    "representativeSignals": ["signal_003", "signal_006", "signal_011"],
+    "relatedCompanies": ["FieldAware Robotics", "Skild AI", "Figure AI"]
+  },
+  {
+    "id": "theme_defense_tech",
+    "name": "Defense Software and Autonomous Systems",
+    "signalStrength": 78,
+    "firmsInvolved": ["Sequoia", "a16z"],
+    "partnerSignalCount": 2,
+    "investmentActivityCount": 2,
+    "whatTheyAreSaying": "Partners are describing defense as a modern software market where product velocity, procurement fluency, autonomy, and secure communications matter.",
+    "whyItMatters": "The category is becoming more accessible to software-native founders, but diligence should focus on procurement access and urgent customer pull.",
+    "representativeSignals": ["signal_008", "signal_016", "signal_003"],
+    "relatedCompanies": ["ProcureOps Defense", "Shield AI", "Frontier Comms"]
+  }
+]

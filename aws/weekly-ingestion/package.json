@@ -1,0 +1,11 @@
+{
+  "name": "venture-radar-weekly-ingestion",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.955.0",
+    "@aws-sdk/client-secrets-manager": "^3.955.0",
+    "@aws-sdk/lib-dynamodb": "^3.955.0"
+  }
+}

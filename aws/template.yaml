@@ -1,0 +1,103 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Transform: AWS::Serverless-2016-10-31
+Description: Venture Radar weekly X ingestion job.
+
+Parameters:
+  XBearerTokenSecretName:
+    Type: String
+    Default: venture-radar/x-bearer-token
+    Description: Secrets Manager secret containing the X API bearer token as plain text.
+  ScheduleExpression:
+    Type: String
+    Default: cron(0 14 ? * MON *)
+    Description: EventBridge schedule expression. Default is Mondays at 14:00 UTC.
+
+Globals:
+  Function:
+    Runtime: nodejs20.x
+    Timeout: 300
+    MemorySize: 512
+    Architectures:
+      - arm64
+    Environment:
+      Variables:
+        NODE_OPTIONS: --enable-source-maps
+
+Resources:
+  SignalsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: venture-radar-signals
+      BillingMode: PAY_PER_REQUEST
+      AttributeDefinitions:
+        - AttributeName: PK
+          AttributeType: S
+        - AttributeName: SK
+          AttributeType: S
+        - AttributeName: GSI1PK
+          AttributeType: S
+        - AttributeName: GSI1SK
+          AttributeType: S
+        - AttributeName: GSI2PK
+          AttributeType: S
+        - AttributeName: GSI2SK
+          AttributeType: S
+      KeySchema:
+        - AttributeName: PK
+          KeyType: HASH
+        - AttributeName: SK
+          KeyType: RANGE
+      GlobalSecondaryIndexes:
+        - IndexName: by-account
+          KeySchema:
+            - AttributeName: GSI1PK
+              KeyType: HASH
+            - AttributeName: GSI1SK
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+        - IndexName: by-firm
+          KeySchema:
+            - AttributeName: GSI2PK
+              KeyType: HASH
+            - AttributeName: GSI2SK
+              KeyType: RANGE
+          Projection:
+            ProjectionType: ALL
+
+  WeeklyIngestionFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: venture-radar-weekly-ingestion
+      CodeUri: weekly-ingestion/
+      Handler: index.handler
+      Description: Fetches the last 7 days of partner X posts and stores them in DynamoDB.
+      Environment:
+        Variables:
+          SIGNALS_TABLE_NAME: !Ref SignalsTable
+          X_BEARER_TOKEN_SECRET_NAME: !Ref XBearerTokenSecretName
+      Policies:
+        - DynamoDBCrudPolicy:
+            TableName: !Ref SignalsTable
+        - Version: "2012-10-17"
+          Statement:
+            - Effect: Allow
+              Action:
+                - secretsmanager:GetSecretValue
+              Resource: !Sub arn:${AWS::Partition}:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:${XBearerTokenSecretName}*
+      Events:
+        WeeklySchedule:
+          Type: Schedule
+          Properties:
+            Name: venture-radar-weekly-ingestion
+            Description: Run Venture Radar partner X ingestion weekly.
+            Schedule: !Ref ScheduleExpression
+            Enabled: true
+
+Outputs:
+  SignalsTableName:
+    Description: DynamoDB table storing ingested X signals.
+    Value: !Ref SignalsTable
+  WeeklyIngestionFunctionName:
+    Description: Lambda function scheduled by EventBridge.
+    Value: !Ref WeeklyIngestionFunction
