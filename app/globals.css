@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: light;
-  --font-sans: "Inter", "SF Pro Display", "Segoe UI", sans-serif;
+  color-scheme: dark;
+  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", "JetBrains Mono", Menlo, Consolas, "Liberation Mono", monospace;
 }
 
 * {
@@ -14,16 +14,14 @@
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    linear-gradient(135deg, rgba(13, 88, 85, 0.08), transparent 30%),
-    linear-gradient(225deg, rgba(211, 120, 44, 0.1), transparent 32%),
-    #f6f3ee;
-  color: #121417;
+  background: #000000;
+  color: #ededed;
+  font-family: var(--font-mono);
 }
 
 ::selection {
-  background: #133f3c;
-  color: #fff;
+  background: #ffffff;
+  color: #000000;
 }
 
 .memo-body p {
@@ -31,22 +29,23 @@ body {
 }
 
 .memo-body h2 {
-  margin: 1.5rem 0 0.6rem;
-  font-size: 1.05rem;
-  font-weight: 700;
-  color: #0a0a0a;
+  margin: 1.6rem 0 0.6rem;
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: #ffffff;
 }
 
 .memo-body h3 {
   margin: 1.2rem 0 0.4rem;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: #0a0a0a;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #f4f4f5;
 }
 
 .memo-body strong {
-  font-weight: 700;
-  color: #0a0a0a;
+  font-weight: 600;
+  color: #ffffff;
 }
 
 .memo-body ul {
@@ -56,12 +55,13 @@ body {
 }
 
 .memo-body li {
-  margin-bottom: 0.35rem;
+  margin-bottom: 0.4rem;
 }
 
 .memo-body a {
-  color: #115e59;
+  color: #7dd3fc;
   text-decoration: underline;
+  text-underline-offset: 2px;
 }
 
 .memo-body h2:first-child,
