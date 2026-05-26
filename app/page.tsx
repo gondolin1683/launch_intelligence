@@ -3,6 +3,7 @@ import ReactMarkdown from "react-markdown";
 import partnersData from "../data/partners.json";
 import seedSignalsData from "../data/signals.json";
 import themesData from "../data/themes.json";
+import { BackgroundEffects } from "./BackgroundEffects";
 import { generatePartnerMemo } from "./lib/memo";
 import { getLatestWeeklyMemo } from "./lib/weeklyMemo";
 import type { Firm, PartnerAccount, Signal, VcTheme } from "./lib/types";
@@ -167,8 +168,9 @@ export default async function Home() {
   const generatedAt = liveMode ? weekly!.meta.generatedAt : null;
 
   return (
-    <main className="min-h-screen bg-black text-zinc-100">
-      <div className="mx-auto max-w-7xl px-6 py-16 lg:px-8">
+    <main className="relative min-h-screen text-zinc-100">
+      <BackgroundEffects />
+      <div className="relative z-10 mx-auto max-w-7xl px-6 py-16 lg:px-8">
         <div className="mb-12 flex flex-wrap items-center gap-x-2 gap-y-1 border-b border-white/10 pb-4 text-xs text-zinc-500">
           <RefreshCw className="h-3.5 w-3.5 shrink-0 text-sky-400" />
           <span>Refreshes weekly — tweets ingested Mondays 14:00 UTC, themes and memo generated 14:30 UTC.</span>

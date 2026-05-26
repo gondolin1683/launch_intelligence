@@ -68,3 +68,95 @@ body {
 .memo-body h3:first-child {
   margin-top: 0;
 }
+
+@keyframes vr-fade-in {
+  from {
+    opacity: 0;
+    filter: blur(18px);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+  }
+}
+
+@keyframes vr-backlight {
+  0% {
+    opacity: 0.3;
+    transform: translate3d(-2%, 1%, 0) scale(1);
+  }
+  50% {
+    opacity: 0.72;
+    transform: translate3d(2%, -2%, 0) scale(1.05);
+  }
+  100% {
+    opacity: 0.4;
+    transform: translate3d(1%, 2%, 0) scale(1.02);
+  }
+}
+
+.vr-bg {
+  --mouse-alpha: 0.45;
+  --mouse-x: 50vw;
+  --mouse-y: 35vh;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #000000;
+  animation: vr-fade-in 1.8s ease-out both;
+}
+
+.vr-bg::before,
+.vr-bg::after,
+.vr-bg__cursor {
+  content: "";
+  position: absolute;
+  inset: -24%;
+  will-change: opacity, transform;
+}
+
+.vr-bg::before {
+  background:
+    linear-gradient(115deg, transparent 10%, rgba(56, 189, 248, 0.09) 35%, transparent 58%),
+    linear-gradient(245deg, transparent 18%, rgba(45, 212, 191, 0.07) 48%, transparent 70%);
+  animation: vr-backlight 18s ease-in-out infinite;
+}
+
+.vr-bg::after {
+  background:
+    repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.035) 0 1px, transparent 1px 120px),
+    repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.025) 0 1px, transparent 1px 96px);
+  mask-image: linear-gradient(to bottom, transparent, black 22%, black 76%, transparent);
+  opacity: 0;
+  animation: vr-fade-in 2.4s ease-out 0.35s both;
+}
+
+.vr-bg__cursor {
+  inset: 0;
+  background:
+    radial-gradient(
+      280px circle at var(--mouse-x) var(--mouse-y),
+      rgba(125, 211, 252, calc(0.18 * var(--mouse-alpha))) 0%,
+      rgba(56, 189, 248, calc(0.075 * var(--mouse-alpha))) 38%,
+      transparent 70%
+    );
+  mix-blend-mode: screen;
+  opacity: 0.9;
+  transition: opacity 220ms ease;
+  will-change: background;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vr-bg,
+  .vr-bg::before,
+  .vr-bg::after,
+  .vr-bg__cursor {
+    animation: vr-fade-in 1.2s ease-out both;
+  }
+
+  .vr-bg__cursor {
+    display: none;
+  }
+}
